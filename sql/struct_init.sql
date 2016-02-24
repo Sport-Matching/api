@@ -1,0 +1,394 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.4.5
+-- Dumped by pg_dump version 9.4.5
+-- Started on 2016-02-24 12:20:20 CET
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 182 (class 3079 OID 11893)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2084 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 178 (class 1259 OID 17601)
+-- Name: matches; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE matches (
+    id integer NOT NULL,
+    player1_id integer NOT NULL,
+    player2_id integer NOT NULL,
+    set1_id integer NOT NULL,
+    set2_id integer,
+    set3_id integer,
+    set4_id integer,
+    set5_id integer,
+    date timestamp without time zone NOT NULL,
+    tournament_id integer NOT NULL
+);
+
+
+--
+-- TOC entry 177 (class 1259 OID 17599)
+-- Name: matches_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE matches_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2085 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: matches_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE matches_id_seq OWNED BY matches.id;
+
+
+--
+-- TOC entry 174 (class 1259 OID 17585)
+-- Name: players; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE players (
+    id integer NOT NULL,
+    name character varying(128) NOT NULL,
+    birthdate timestamp without time zone NOT NULL,
+    sex bit(1) NOT NULL,
+    country character varying(128) NOT NULL,
+    weight integer NOT NULL,
+    size integer NOT NULL
+);
+
+
+--
+-- TOC entry 173 (class 1259 OID 17583)
+-- Name: players_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE players_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2086 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: players_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE players_id_seq OWNED BY players.id;
+
+
+--
+-- TOC entry 179 (class 1259 OID 17607)
+-- Name: pronostics; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE pronostics (
+    match_id integer NOT NULL,
+    match_winner_number integer,
+    set1_winner_number integer
+);
+
+
+--
+-- TOC entry 172 (class 1259 OID 17578)
+-- Name: rankings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE rankings (
+    player_id integer NOT NULL,
+    rank integer NOT NULL,
+    year integer NOT NULL
+);
+
+
+--
+-- TOC entry 181 (class 1259 OID 17614)
+-- Name: sets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sets (
+    id integer NOT NULL,
+    player1_score integer NOT NULL,
+    player2_score integer NOT NULL,
+    player1_tie_break integer NOT NULL,
+    player2_tie_break integer NOT NULL
+);
+
+
+--
+-- TOC entry 180 (class 1259 OID 17612)
+-- Name: sets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2087 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: sets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sets_id_seq OWNED BY sets.id;
+
+
+--
+-- TOC entry 176 (class 1259 OID 17593)
+-- Name: tournaments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE tournaments (
+    id integer NOT NULL,
+    name character varying(128) NOT NULL,
+    ground_type integer NOT NULL,
+    year integer NOT NULL
+);
+
+
+--
+-- TOC entry 175 (class 1259 OID 17591)
+-- Name: tournaments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE tournaments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2088 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: tournaments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE tournaments_id_seq OWNED BY tournaments.id;
+
+
+--
+-- TOC entry 1945 (class 2604 OID 17604)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY matches ALTER COLUMN id SET DEFAULT nextval('matches_id_seq'::regclass);
+
+
+--
+-- TOC entry 1943 (class 2604 OID 17588)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY players ALTER COLUMN id SET DEFAULT nextval('players_id_seq'::regclass);
+
+
+--
+-- TOC entry 1946 (class 2604 OID 17617)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY sets ALTER COLUMN id SET DEFAULT nextval('sets_id_seq'::regclass);
+
+
+--
+-- TOC entry 1944 (class 2604 OID 17596)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY tournaments ALTER COLUMN id SET DEFAULT nextval('tournaments_id_seq'::regclass);
+
+
+--
+-- TOC entry 1954 (class 2606 OID 17606)
+-- Name: matches_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY matches
+    ADD CONSTRAINT matches_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1950 (class 2606 OID 17590)
+-- Name: players_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY players
+    ADD CONSTRAINT players_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1956 (class 2606 OID 17611)
+-- Name: pronostics_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY pronostics
+    ADD CONSTRAINT pronostics_pkey PRIMARY KEY (match_id);
+
+
+--
+-- TOC entry 1948 (class 2606 OID 17582)
+-- Name: rankings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY rankings
+    ADD CONSTRAINT rankings_pkey PRIMARY KEY (player_id, year);
+
+
+--
+-- TOC entry 1958 (class 2606 OID 17619)
+-- Name: sets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY sets
+    ADD CONSTRAINT sets_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1952 (class 2606 OID 17598)
+-- Name: tournaments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY tournaments
+    ADD CONSTRAINT tournaments_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1960 (class 2606 OID 17625)
+-- Name: matches_player1_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY matches
+    ADD CONSTRAINT matches_player1_id_fkey FOREIGN KEY (player1_id) REFERENCES players(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1961 (class 2606 OID 17630)
+-- Name: matches_player2_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY matches
+    ADD CONSTRAINT matches_player2_id_fkey FOREIGN KEY (player2_id) REFERENCES players(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1962 (class 2606 OID 17635)
+-- Name: matches_set1_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY matches
+    ADD CONSTRAINT matches_set1_id_fkey FOREIGN KEY (set1_id) REFERENCES sets(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1963 (class 2606 OID 17640)
+-- Name: matches_set2_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY matches
+    ADD CONSTRAINT matches_set2_id_fkey FOREIGN KEY (set2_id) REFERENCES sets(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1964 (class 2606 OID 17645)
+-- Name: matches_set3_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY matches
+    ADD CONSTRAINT matches_set3_id_fkey FOREIGN KEY (set3_id) REFERENCES sets(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1965 (class 2606 OID 17650)
+-- Name: matches_set4_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY matches
+    ADD CONSTRAINT matches_set4_id_fkey FOREIGN KEY (set4_id) REFERENCES sets(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1966 (class 2606 OID 17655)
+-- Name: matches_set5_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY matches
+    ADD CONSTRAINT matches_set5_id_fkey FOREIGN KEY (set5_id) REFERENCES sets(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1967 (class 2606 OID 17660)
+-- Name: matches_tournament_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY matches
+    ADD CONSTRAINT matches_tournament_id_fkey FOREIGN KEY (tournament_id) REFERENCES tournaments(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1968 (class 2606 OID 17665)
+-- Name: pronostics_match_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY pronostics
+    ADD CONSTRAINT pronostics_match_id_fkey FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1959 (class 2606 OID 17620)
+-- Name: rankings_player_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY rankings
+    ADD CONSTRAINT rankings_player_id_fkey FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE;
+
+
+-- Completed on 2016-02-24 12:20:20 CET
+
+--
+-- PostgreSQL database dump complete
+--
+

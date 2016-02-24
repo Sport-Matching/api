@@ -47,6 +47,7 @@ $gen->setConfig(array("dbo" =>
             "/^sp_lu_.*/"
         ),
         "controllers" => array(
+            "/^SetsController$/"
         )
     )
 ));

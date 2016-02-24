@@ -8,8 +8,7 @@ $route = LuRoute::getInstance();
 
 $int = LuRoute::REG_INT;
 
-LuticateBusiness::setupAuth();
-LuticateBusiness::setupRoutes();
-LuDocBusiness::setupRoutes("/project");
+
+LuDocBusiness::setupRoutes("/sport-matching");
 
 //$route->get("/data", "Data", "getAll", ProjectPermissions::HOST_GET);
