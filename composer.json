@@ -6,13 +6,13 @@
     "type": "project",
     "repositories": [{
         "type": "vcs",
-        "url":  "https://git.rthoni.com/robin.thoni/luticate-utils.git"
+        "url":  "https://git.rthoni.com/luticate/api-utils.git"
     },{
         "type": "vcs",
-        "url":  "https://git.rthoni.com/robin.thoni/luticate-generator.git"
+        "url":  "https://git.rthoni.com/luticate/api-generator.git"
     },{
         "type": "vcs",
-        "url":  "https://git.rthoni.com/robin.thoni/luticate-doc.git"
+        "url":  "https://git.rthoni.com/luticate/api-doc.git"
     }],
     "require": {
         "php": ">=5.5.9",

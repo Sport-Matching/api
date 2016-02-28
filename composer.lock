@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4326dda44714944b2b7f0263cbcb59b1",
-    "content-hash": "f1f953441f8d09325edd31554ca65aac",
+    "hash": "40d289f2525bebd3c12ffcd69fd92327",
+    "content-hash": "0892c7674cbb2a8192c682eb6fb37f69",
     "packages": [
         {
             "name": "danielstjules/stringy",
@@ -132,10 +132,10 @@
         },
         {
             "name": "illuminate/auth",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
-                "url": "git@github.com:illuminate/auth.git",
+                "url": "https://github.com/illuminate/auth.git",
                 "reference": "78b1b83ceecace60d7563712425f404a6619da2a"
             },
             "dist": {
@@ -182,7 +182,7 @@
         },
         {
             "name": "illuminate/broadcasting",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/broadcasting.git",
@@ -229,7 +229,7 @@
         },
         {
             "name": "illuminate/bus",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/bus.git",
@@ -274,7 +274,7 @@
         },
         {
             "name": "illuminate/cache",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/cache.git",
@@ -324,7 +324,7 @@
         },
         {
             "name": "illuminate/config",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
@@ -369,7 +369,7 @@
         },
         {
             "name": "illuminate/console",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
@@ -420,7 +420,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -463,7 +463,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -505,7 +505,7 @@
         },
         {
             "name": "illuminate/cookie",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/cookie.git",
@@ -551,16 +551,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "30866aef5b44460e3a7eee8246bfea2f0ef875a2"
+                "reference": "42e0edf2da29373d8f73dfc9dddb03bafb6586d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/30866aef5b44460e3a7eee8246bfea2f0ef875a2",
-                "reference": "30866aef5b44460e3a7eee8246bfea2f0ef875a2",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/42e0edf2da29373d8f73dfc9dddb03bafb6586d8",
+                "reference": "42e0edf2da29373d8f73dfc9dddb03bafb6586d8",
                 "shasum": ""
             },
             "require": {
@@ -607,11 +607,11 @@
                 "orm",
                 "sql"
             ],
-            "time": "2016-02-17 17:29:27"
+            "time": "2016-02-24 14:58:10"
         },
         {
             "name": "illuminate/encryption",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/encryption.git",
@@ -660,7 +660,7 @@
         },
         {
             "name": "illuminate/events",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
@@ -705,7 +705,7 @@
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
@@ -755,7 +755,7 @@
         },
         {
             "name": "illuminate/hashing",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/hashing.git",
@@ -799,7 +799,7 @@
         },
         {
             "name": "illuminate/http",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/http.git",
@@ -845,7 +845,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -889,7 +889,7 @@
         },
         {
             "name": "illuminate/pipeline",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pipeline.git",
@@ -933,7 +933,7 @@
         },
         {
             "name": "illuminate/queue",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/queue.git",
@@ -991,7 +991,7 @@
         },
         {
             "name": "illuminate/session",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/session.git",
@@ -1041,7 +1041,7 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
@@ -1095,7 +1095,7 @@
         },
         {
             "name": "illuminate/translation",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/translation.git",
@@ -1140,7 +1140,7 @@
         },
         {
             "name": "illuminate/validation",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/validation.git",
@@ -1190,7 +1190,7 @@
         },
         {
             "name": "illuminate/view",
-            "version": "v5.1.30",
+            "version": "v5.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/view.git",
@@ -2598,11 +2598,11 @@
         },
         {
             "name": "luticate/doc",
-            "version": "0.1.2",
+            "version": "0.1.3",
             "source": {
                 "type": "git",
-                "url": "https://git.rthoni.com/robin.thoni/luticate-doc.git",
-                "reference": "ded47bd26b58b4106ec8c37867c3ed9be1359780"
+                "url": "https://git.rthoni.com/luticate/api-doc.git",
+                "reference": "446df92b06f9adcc30b0609af3bad463192e8fd1"
             },
             "require": {
                 "luticate/utils": "0.1.x",
@@ -2621,15 +2621,15 @@
                 }
             ],
             "description": "Luticate documentation generator",
-            "time": "2016-02-23 19:15:02"
+            "time": "2016-02-24 14:58:57"
         },
         {
             "name": "luticate/generator",
-            "version": "0.1.5",
+            "version": "0.1.6",
             "source": {
                 "type": "git",
-                "url": "https://git.rthoni.com/robin.thoni/luticate-generator.git",
-                "reference": "1e28bbee5b08695c89a65c518f9adb2b09c0e839"
+                "url": "https://git.rthoni.com/luticate/api-generator.git",
+                "reference": "9ce73426eb10e43324dbc9b861faf45690849a64"
             },
             "require": {
                 "luticate/utils": "0.1.x",
@@ -2649,15 +2649,15 @@
                 }
             ],
             "description": "Luticate user management system code generator",
-            "time": "2016-02-23 19:17:44"
+            "time": "2016-02-24 15:02:20"
         },
         {
             "name": "luticate/utils",
-            "version": "0.1.7",
+            "version": "0.1.8",
             "source": {
                 "type": "git",
-                "url": "https://git.rthoni.com/robin.thoni/luticate-utils.git",
-                "reference": "f1c6488a217a463d4beb07d2706c8bcc8317e39d"
+                "url": "https://git.rthoni.com/luticate/api-utils.git",
+                "reference": "ab2d0433d4530f83c2ccddc108f25c5ddf25a8e3"
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.1"
@@ -2675,7 +2675,7 @@
                 }
             ],
             "description": "Luticate user management system utils",
-            "time": "2016-02-22 22:19:47"
+            "time": "2016-02-24 15:03:40"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -3323,16 +3323,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "1.3.3",
+            "version": "1.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "6e7133793a8e5a5714a551a8324337374be209df"
+                "reference": "dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6e7133793a8e5a5714a551a8324337374be209df",
-                "reference": "6e7133793a8e5a5714a551a8324337374be209df",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf",
+                "reference": "dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf",
                 "shasum": ""
             },
             "require": {
@@ -3369,7 +3369,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2015-12-02 08:37:27"
+            "time": "2016-02-26 18:40:46"
         },
         {
             "name": "sebastian/exporter",
