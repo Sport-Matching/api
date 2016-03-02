@@ -11,4 +11,9 @@ class PlayersDataAccess extends LuDataAccess {
     {
         return new Players();
     }
+
+    public static function getGround($player_id)
+    {
+        return 1;
+    }
 }

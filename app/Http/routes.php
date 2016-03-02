@@ -14,3 +14,4 @@ LuDocBusiness::setupRoutes("/sport-matching");
 
 $route->get("/players/$player_id/matches", "Players", "getMatches");
 $route->get("/players/$player_id", "Players", "getById");
+$route->get("/players/$player_id/ground", "Players", "getGround");

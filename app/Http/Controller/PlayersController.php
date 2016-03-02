@@ -21,4 +21,9 @@ class PlayersController extends LuController {
     {
         return PlayersBusiness::getById($player_id);
     }
+
+    public function getGround($player_id)
+    {
+        return PlayersBusiness::getGround($player_id);
+    }
 }
