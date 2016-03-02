@@ -16,4 +16,9 @@ class PlayersController extends LuController {
     {
         return PlayersBusiness::getMatches($player_id, $page, $perPage);
     }
+
+    public function getById($player_id)
+    {
+        return PlayersBusiness::getById($player_id);
+    }
 }

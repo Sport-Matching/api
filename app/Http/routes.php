@@ -13,3 +13,4 @@ $player_id = "{player_id:$int}";
 LuDocBusiness::setupRoutes("/sport-matching");
 
 $route->get("/players/$player_id/matches", "Players", "getMatches");
+$route->get("/players/$player_id", "Players", "getById");
