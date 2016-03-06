@@ -2625,11 +2625,11 @@
         },
         {
             "name": "luticate/generator",
-            "version": "0.1.6",
+            "version": "0.1.7",
             "source": {
                 "type": "git",
                 "url": "https://git.rthoni.com/luticate/api-generator.git",
-                "reference": "9ce73426eb10e43324dbc9b861faf45690849a64"
+                "reference": "22d9bf1903990eb1912fa5af6f062233131b3257"
             },
             "require": {
                 "luticate/utils": "0.1.x",
@@ -2649,7 +2649,7 @@
                 }
             ],
             "description": "Luticate user management system code generator",
-            "time": "2016-02-24 15:02:20"
+            "time": "2016-03-06 22:29:57"
         },
         {
             "name": "luticate/utils",
