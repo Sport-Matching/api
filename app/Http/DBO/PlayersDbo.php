@@ -20,7 +20,8 @@ class PlayersDbo extends LuDbo {
             "Sex" => $this->_sex,
             "Country" => $this->_country,
             "Weight" => $this->_weight,
-            "Size" => $this->_size
+            "Size" => $this->_size,
+            "PictureUrl" => $this->_pictureUrl
         );
     }
 
@@ -48,6 +49,9 @@ class PlayersDbo extends LuDbo {
         if (isset($json["Size"])) {
             $dbo->setSize($json["Size"]);
         }
+        if (isset($json["PictureUrl"])) {
+            $dbo->setPictureUrl($json["PictureUrl"]);
+        }
         return $dbo;
     }
 
@@ -61,6 +65,7 @@ class PlayersDbo extends LuDbo {
         $dbo->setCountry("sample string");
         $dbo->setWeight(42);
         $dbo->setSize(42);
+        $dbo->setPictureUrl("sample string");
         return $dbo;
     }
 
@@ -153,5 +158,18 @@ class PlayersDbo extends LuDbo {
     public function setSize($value)
     {
         $this->_size = $value;
+    }
+
+    /**
+     * @var string
+     */
+    protected $_pictureUrl;
+    public function getPictureUrl()
+    {
+        return $this->_pictureUrl;
+    }
+    public function setPictureUrl($value)
+    {
+        $this->_pictureUrl = $value;
     }
 }

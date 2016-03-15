@@ -41,7 +41,8 @@ $gen->setConfig(array("dbo" =>
     "mode" => 0775,
     "ignore" => array(
         "tables" => array(
-            "/^luticate_.*/"
+            "/^luticate_.*/",
+            "/^ground_types$/"
         ),
         "sp" => array(
             "/^sp_lu_.*/"

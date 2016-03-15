@@ -32,6 +32,7 @@ class PlayersModel extends LuModel
         $dbo->setCountry($this->country);
         $dbo->setWeight($this->weight);
         $dbo->setSize($this->size);
+        $dbo->setPictureUrl($this->picture_url);
 
         return $dbo;
     }
@@ -53,6 +54,7 @@ class PlayersModel extends LuModel
         $model->country = $dbo->getCountry();
         $model->weight = $dbo->getWeight();
         $model->size = $dbo->getSize();
+        $model->picture_url = $dbo->getPictureUrl();
 
         return $model;
     }
