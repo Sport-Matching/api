@@ -25,10 +25,15 @@ class SpGetPlayerFull extends LuSpDbo {
         $dbo = new SpGetPlayerFull();
 
         $dbo->setPlayer(LuStringUtils::convertJsonString($dam->player));
+        $dbo->setMatchCount(LuStringUtils::convertJsonString($dam->match_count));
         $dbo->setMatchWinCount(LuStringUtils::convertJsonString($dam->match_win_count));
         $dbo->setMatchWinCountBestGround(LuStringUtils::convertJsonString($dam->match_win_count_best_ground));
         $dbo->setMatchWinPercent(LuStringUtils::convertJsonString($dam->match_win_percent));
         $dbo->setMatchAvgGame(LuStringUtils::convertJsonString($dam->match_avg_game));
+        $dbo->setMatchFirstSetAvgGame(LuStringUtils::convertJsonString($dam->match_first_set_avg_game));
+        $dbo->setMatchAvgSet(LuStringUtils::convertJsonString($dam->match_avg_set));
+        $dbo->setMatchFirstSetWinPercent(LuStringUtils::convertJsonString($dam->match_first_set_win_percent));
+        $dbo->setSetResultPercent(LuStringUtils::convertJsonString($dam->set_result_percent));
 
         return $dbo;
     }
@@ -40,7 +45,7 @@ class SpGetPlayerFull extends LuSpDbo {
     */
     public static function execute($player_id)
     {
-        $values = DB::select('SELECT to_json(data.player) AS player, to_json(data.match_win_count) AS match_win_count, to_json(data.match_win_count_best_ground) AS match_win_count_best_ground, to_json(data.match_win_percent) AS match_win_percent, to_json(data.match_avg_game) AS match_avg_game FROM sp_get_player_full(:player_id) data', array(":player_id" => $player_id));
+        $values = DB::select('SELECT to_json(data.player) AS player, to_json(data.match_count) AS match_count, to_json(data.match_win_count) AS match_win_count, to_json(data.match_win_count_best_ground) AS match_win_count_best_ground, to_json(data.match_win_percent) AS match_win_percent, to_json(data.match_avg_game) AS match_avg_game, to_json(data.match_first_set_avg_game) AS match_first_set_avg_game, to_json(data.match_avg_set) AS match_avg_set, to_json(data.match_first_set_win_percent) AS match_first_set_win_percent, to_json(data.set_result_percent) AS set_result_percent FROM sp_get_player_full(:player_id) data', array(":player_id" => $player_id));
         return self::damToDbo($values[0]);
     }
 
@@ -49,10 +54,15 @@ class SpGetPlayerFull extends LuSpDbo {
     {
         return array(
             "Player" => $this->_player,
+            "MatchCount" => $this->_matchCount,
             "MatchWinCount" => $this->_matchWinCount,
             "MatchWinCountBestGround" => $this->_matchWinCountBestGround,
             "MatchWinPercent" => $this->_matchWinPercent,
-            "MatchAvgGame" => $this->_matchAvgGame
+            "MatchAvgGame" => $this->_matchAvgGame,
+            "MatchFirstSetAvgGame" => $this->_matchFirstSetAvgGame,
+            "MatchAvgSet" => $this->_matchAvgSet,
+            "MatchFirstSetWinPercent" => $this->_matchFirstSetWinPercent,
+            "SetResultPercent" => $this->_setResultPercent
         );
     }
 
@@ -61,6 +71,9 @@ class SpGetPlayerFull extends LuSpDbo {
         $dbo = new SpGetPlayerFull();
         if (isset($json["Player"])) {
             $dbo->setPlayer($json["Player"]);
+        }
+        if (isset($json["MatchCount"])) {
+            $dbo->setMatchCount($json["MatchCount"]);
         }
         if (isset($json["MatchWinCount"])) {
             $dbo->setMatchWinCount($json["MatchWinCount"]);
@@ -74,6 +87,18 @@ class SpGetPlayerFull extends LuSpDbo {
         if (isset($json["MatchAvgGame"])) {
             $dbo->setMatchAvgGame($json["MatchAvgGame"]);
         }
+        if (isset($json["MatchFirstSetAvgGame"])) {
+            $dbo->setMatchFirstSetAvgGame($json["MatchFirstSetAvgGame"]);
+        }
+        if (isset($json["MatchAvgSet"])) {
+            $dbo->setMatchAvgSet($json["MatchAvgSet"]);
+        }
+        if (isset($json["MatchFirstSetWinPercent"])) {
+            $dbo->setMatchFirstSetWinPercent($json["MatchFirstSetWinPercent"]);
+        }
+        if (isset($json["SetResultPercent"])) {
+            $dbo->setSetResultPercent($json["SetResultPercent"]);
+        }
         return $dbo;
     }
 
@@ -81,10 +106,15 @@ class SpGetPlayerFull extends LuSpDbo {
     {
         $dbo = new SpGetPlayerFull();
         $dbo->setPlayer("sample string");
+        $dbo->setMatchCount(42);
         $dbo->setMatchWinCount(42);
         $dbo->setMatchWinCountBestGround(42);
         $dbo->setMatchWinPercent(42.42);
         $dbo->setMatchAvgGame(42.42);
+        $dbo->setMatchFirstSetAvgGame(42.42);
+        $dbo->setMatchAvgSet(42.42);
+        $dbo->setMatchFirstSetWinPercent(42.42);
+        $dbo->setSetResultPercent("sample string");
         return $dbo;
     }
 
@@ -100,6 +130,19 @@ class SpGetPlayerFull extends LuSpDbo {
     public function setPlayer($value)
     {
         $this->_player = $value;
+    }
+
+    /**
+    * @var integer
+    */
+    protected $_matchCount;
+    public function getMatchCount()
+    {
+        return $this->_matchCount;
+    }
+    public function setMatchCount($value)
+    {
+        $this->_matchCount = $value;
     }
 
     /**
@@ -152,5 +195,57 @@ class SpGetPlayerFull extends LuSpDbo {
     public function setMatchAvgGame($value)
     {
         $this->_matchAvgGame = $value;
+    }
+
+    /**
+    * @var double
+    */
+    protected $_matchFirstSetAvgGame;
+    public function getMatchFirstSetAvgGame()
+    {
+        return $this->_matchFirstSetAvgGame;
+    }
+    public function setMatchFirstSetAvgGame($value)
+    {
+        $this->_matchFirstSetAvgGame = $value;
+    }
+
+    /**
+    * @var double
+    */
+    protected $_matchAvgSet;
+    public function getMatchAvgSet()
+    {
+        return $this->_matchAvgSet;
+    }
+    public function setMatchAvgSet($value)
+    {
+        $this->_matchAvgSet = $value;
+    }
+
+    /**
+    * @var double
+    */
+    protected $_matchFirstSetWinPercent;
+    public function getMatchFirstSetWinPercent()
+    {
+        return $this->_matchFirstSetWinPercent;
+    }
+    public function setMatchFirstSetWinPercent($value)
+    {
+        $this->_matchFirstSetWinPercent = $value;
+    }
+
+    /**
+    * @var json
+    */
+    protected $_setResultPercent;
+    public function getSetResultPercent()
+    {
+        return $this->_setResultPercent;
+    }
+    public function setSetResultPercent($value)
+    {
+        $this->_setResultPercent = $value;
     }
 }
