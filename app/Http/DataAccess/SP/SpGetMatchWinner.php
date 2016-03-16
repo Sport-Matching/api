@@ -7,31 +7,62 @@
 
 namespace App\Http\DataAccess\SP;
 
-use Luticate\Utils\LuSpModel;
+use Luticate\Utils\LuSpDbo;
 use Luticate\Utils\LuMultipleDbo;
 use Luticate\Utils\LuStringUtils;
 use Illuminate\Support\Facades\DB;
 
-class SpGetMatchWinner extends LuSpModel {
+class SpGetMatchWinner extends LuSpDbo {
 
+    /**
+    * @param $dam
+    * @return \App\Http\DataAccess\SP\SpGetMatchWinner|null
+    */
     protected static function damToDbo($dam)
     {
         if (is_null($dam))
             return null;
         $dbo = new SpGetMatchWinner();
 
-        $dbo->setNumber($dam->number);
+        $dbo->setNumber(LuStringUtils::convertJsonString($dam->number));
 
         return $dbo;
     }
 
 
+    /**
+    * @param $match_id integer
+    * @return \App\Http\DataAccess\SP\SpGetMatchWinner;
+    */
     public static function execute($match_id)
     {
-        $values = DB::select('SELECT * FROM sp_get_match_winner(:match_id)', array(":match_id" => $match_id));
+        $values = DB::select('SELECT to_json(data.number) AS number FROM sp_get_match_winner(:match_id) data', array(":match_id" => $match_id));
         return self::damToDbo($values[0]);
     }
 
+
+    public function jsonSerialize()
+    {
+        return array(
+            "Number" => $this->_number
+        );
+    }
+
+    public static function jsonDeserialize($json)
+    {
+        $dbo = new SpGetMatchWinner();
+        if (isset($json["Number"])) {
+            $dbo->setNumber($json["Number"]);
+        }
+        return $dbo;
+    }
+
+    public static function generateSample()
+    {
+        $dbo = new SpGetMatchWinner();
+        $dbo->setNumber(42);
+        return $dbo;
+    }
 
 
     /**

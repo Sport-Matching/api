@@ -2625,11 +2625,11 @@
         },
         {
             "name": "luticate/generator",
-            "version": "0.1.7",
+            "version": "0.1.8",
             "source": {
                 "type": "git",
                 "url": "https://git.rthoni.com/luticate/api-generator.git",
-                "reference": "22d9bf1903990eb1912fa5af6f062233131b3257"
+                "reference": "2a5604b8e45853897aeefb3d70a5a2296831b1a5"
             },
             "require": {
                 "luticate/utils": "0.1.x",
@@ -2649,15 +2649,15 @@
                 }
             ],
             "description": "Luticate user management system code generator",
-            "time": "2016-03-06 22:29:57"
+            "time": "2016-03-16 13:11:57"
         },
         {
             "name": "luticate/utils",
-            "version": "0.1.8",
+            "version": "0.1.9",
             "source": {
                 "type": "git",
                 "url": "https://git.rthoni.com/luticate/api-utils.git",
-                "reference": "ab2d0433d4530f83c2ccddc108f25c5ddf25a8e3"
+                "reference": "c73583d1a80d7ff2bea934d62b091dce22953f23"
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.1"
@@ -2675,7 +2675,7 @@
                 }
             ],
             "description": "Luticate user management system utils",
-            "time": "2016-02-24 15:03:40"
+            "time": "2016-03-16 13:06:42"
         },
         {
             "name": "phpdocumentor/reflection-docblock",

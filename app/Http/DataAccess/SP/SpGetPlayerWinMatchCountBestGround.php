@@ -7,31 +7,62 @@
 
 namespace App\Http\DataAccess\SP;
 
-use Luticate\Utils\LuSpModel;
+use Luticate\Utils\LuSpDbo;
 use Luticate\Utils\LuMultipleDbo;
 use Luticate\Utils\LuStringUtils;
 use Illuminate\Support\Facades\DB;
 
-class SpGetPlayerWinMatchCountBestGround extends LuSpModel {
+class SpGetPlayerWinMatchCountBestGround extends LuSpDbo {
 
+    /**
+    * @param $dam
+    * @return \App\Http\DataAccess\SP\SpGetPlayerWinMatchCountBestGround|null
+    */
     protected static function damToDbo($dam)
     {
         if (is_null($dam))
             return null;
         $dbo = new SpGetPlayerWinMatchCountBestGround();
 
-        $dbo->setCount($dam->count);
+        $dbo->setCount(LuStringUtils::convertJsonString($dam->count));
 
         return $dbo;
     }
 
 
+    /**
+    * @param $player_id integer
+    * @return \App\Http\DataAccess\SP\SpGetPlayerWinMatchCountBestGround;
+    */
     public static function execute($player_id)
     {
-        $values = DB::select('SELECT * FROM sp_get_player_win_match_count_best_ground(:player_id)', array(":player_id" => $player_id));
+        $values = DB::select('SELECT to_json(data.count) AS count FROM sp_get_player_win_match_count_best_ground(:player_id) data', array(":player_id" => $player_id));
         return self::damToDbo($values[0]);
     }
 
+
+    public function jsonSerialize()
+    {
+        return array(
+            "Count" => $this->_count
+        );
+    }
+
+    public static function jsonDeserialize($json)
+    {
+        $dbo = new SpGetPlayerWinMatchCountBestGround();
+        if (isset($json["Count"])) {
+            $dbo->setCount($json["Count"]);
+        }
+        return $dbo;
+    }
+
+    public static function generateSample()
+    {
+        $dbo = new SpGetPlayerWinMatchCountBestGround();
+        $dbo->setCount(42);
+        return $dbo;
+    }
 
 
     /**

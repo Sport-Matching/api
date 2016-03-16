@@ -7,31 +7,63 @@
 
 namespace App\Http\DataAccess\SP;
 
-use Luticate\Utils\LuSpModel;
+use Luticate\Utils\LuSpDbo;
 use Luticate\Utils\LuMultipleDbo;
 use Luticate\Utils\LuStringUtils;
 use Illuminate\Support\Facades\DB;
 
-class SpGetPlayerWinPercent extends LuSpModel {
+class SpGetPlayerWinPercent extends LuSpDbo {
 
+    /**
+    * @param $dam
+    * @return \App\Http\DataAccess\SP\SpGetPlayerWinPercent|null
+    */
     protected static function damToDbo($dam)
     {
         if (is_null($dam))
             return null;
         $dbo = new SpGetPlayerWinPercent();
 
-        $dbo->setPercent($dam->percent);
+        $dbo->setPercent(LuStringUtils::convertJsonString($dam->percent));
 
         return $dbo;
     }
 
 
+    /**
+    * @param $player_id integer
+    * @param $year integer
+    * @return \App\Http\DataAccess\SP\SpGetPlayerWinPercent;
+    */
     public static function execute($player_id, $year)
     {
-        $values = DB::select('SELECT * FROM sp_get_player_win_percent(:player_id, :year)', array(":player_id" => $player_id, ":year" => $year));
+        $values = DB::select('SELECT to_json(data.percent) AS percent FROM sp_get_player_win_percent(:player_id, :year) data', array(":player_id" => $player_id, ":year" => $year));
         return self::damToDbo($values[0]);
     }
 
+
+    public function jsonSerialize()
+    {
+        return array(
+            "Percent" => $this->_percent
+        );
+    }
+
+    public static function jsonDeserialize($json)
+    {
+        $dbo = new SpGetPlayerWinPercent();
+        if (isset($json["Percent"])) {
+            $dbo->setPercent($json["Percent"]);
+        }
+        return $dbo;
+    }
+
+    public static function generateSample()
+    {
+        $dbo = new SpGetPlayerWinPercent();
+        $dbo->setPercent(42.42);
+        return $dbo;
+    }
 
 
     /**

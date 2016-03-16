@@ -7,31 +7,62 @@
 
 namespace App\Http\DataAccess\SP;
 
-use Luticate\Utils\LuSpModel;
+use Luticate\Utils\LuSpDbo;
 use Luticate\Utils\LuMultipleDbo;
 use Luticate\Utils\LuStringUtils;
 use Illuminate\Support\Facades\DB;
 
-class SpMayInsertGround extends LuSpModel {
+class SpMayInsertGround extends LuSpDbo {
 
+    /**
+    * @param $dam
+    * @return \App\Http\DataAccess\SP\SpMayInsertGround|null
+    */
     protected static function damToDbo($dam)
     {
         if (is_null($dam))
             return null;
         $dbo = new SpMayInsertGround();
 
-        $dbo->setGroundId($dam->ground_id);
+        $dbo->setGroundId(LuStringUtils::convertJsonString($dam->ground_id));
 
         return $dbo;
     }
 
 
+    /**
+    * @param $ground_name string
+    * @return \App\Http\DataAccess\SP\SpMayInsertGround;
+    */
     public static function execute($ground_name)
     {
-        $values = DB::select('SELECT * FROM sp_may_insert_ground(:ground_name)', array(":ground_name" => $ground_name));
+        $values = DB::select('SELECT to_json(data.ground_id) AS ground_id FROM sp_may_insert_ground(:ground_name) data', array(":ground_name" => $ground_name));
         return self::damToDbo($values[0]);
     }
 
+
+    public function jsonSerialize()
+    {
+        return array(
+            "GroundId" => $this->_groundId
+        );
+    }
+
+    public static function jsonDeserialize($json)
+    {
+        $dbo = new SpMayInsertGround();
+        if (isset($json["GroundId"])) {
+            $dbo->setGroundId($json["GroundId"]);
+        }
+        return $dbo;
+    }
+
+    public static function generateSample()
+    {
+        $dbo = new SpMayInsertGround();
+        $dbo->setGroundId(42);
+        return $dbo;
+    }
 
 
     /**

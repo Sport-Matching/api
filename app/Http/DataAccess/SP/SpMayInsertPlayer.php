@@ -7,31 +7,68 @@
 
 namespace App\Http\DataAccess\SP;
 
-use Luticate\Utils\LuSpModel;
+use Luticate\Utils\LuSpDbo;
 use Luticate\Utils\LuMultipleDbo;
 use Luticate\Utils\LuStringUtils;
 use Illuminate\Support\Facades\DB;
 
-class SpMayInsertPlayer extends LuSpModel {
+class SpMayInsertPlayer extends LuSpDbo {
 
+    /**
+    * @param $dam
+    * @return \App\Http\DataAccess\SP\SpMayInsertPlayer|null
+    */
     protected static function damToDbo($dam)
     {
         if (is_null($dam))
             return null;
         $dbo = new SpMayInsertPlayer();
 
-        $dbo->setPlayerId($dam->player_id);
+        $dbo->setPlayerId(LuStringUtils::convertJsonString($dam->player_id));
 
         return $dbo;
     }
 
 
+    /**
+    * @param $player_name string
+    * @param $player_birthdate timestamp without time zone
+    * @param $player_sex boolean
+    * @param $player_country string
+    * @param $player_weight integer
+    * @param $player_size integer
+    * @param $player_picture_url string
+    * @return \App\Http\DataAccess\SP\SpMayInsertPlayer;
+    */
     public static function execute($player_name, $player_birthdate, $player_sex, $player_country, $player_weight, $player_size, $player_picture_url)
     {
-        $values = DB::select('SELECT * FROM sp_may_insert_player(:player_name, :player_birthdate, :player_sex, :player_country, :player_weight, :player_size, :player_picture_url)', array(":player_name" => $player_name, ":player_birthdate" => $player_birthdate, ":player_sex" => $player_sex, ":player_country" => $player_country, ":player_weight" => $player_weight, ":player_size" => $player_size, ":player_picture_url" => $player_picture_url));
+        $values = DB::select('SELECT to_json(data.player_id) AS player_id FROM sp_may_insert_player(:player_name, :player_birthdate, :player_sex, :player_country, :player_weight, :player_size, :player_picture_url) data', array(":player_name" => $player_name, ":player_birthdate" => $player_birthdate, ":player_sex" => $player_sex, ":player_country" => $player_country, ":player_weight" => $player_weight, ":player_size" => $player_size, ":player_picture_url" => $player_picture_url));
         return self::damToDbo($values[0]);
     }
 
+
+    public function jsonSerialize()
+    {
+        return array(
+            "PlayerId" => $this->_playerId
+        );
+    }
+
+    public static function jsonDeserialize($json)
+    {
+        $dbo = new SpMayInsertPlayer();
+        if (isset($json["PlayerId"])) {
+            $dbo->setPlayerId($json["PlayerId"]);
+        }
+        return $dbo;
+    }
+
+    public static function generateSample()
+    {
+        $dbo = new SpMayInsertPlayer();
+        $dbo->setPlayerId(42);
+        return $dbo;
+    }
 
 
     /**

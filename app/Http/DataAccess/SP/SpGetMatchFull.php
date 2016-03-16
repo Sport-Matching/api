@@ -7,32 +7,68 @@
 
 namespace App\Http\DataAccess\SP;
 
-use Luticate\Utils\LuSpModel;
+use Luticate\Utils\LuSpDbo;
 use Luticate\Utils\LuMultipleDbo;
 use Luticate\Utils\LuStringUtils;
 use Illuminate\Support\Facades\DB;
 
-class SpGetMatchFull extends LuSpModel {
+class SpGetMatchFull extends LuSpDbo {
 
+    /**
+    * @param $dam
+    * @return \App\Http\DataAccess\SP\SpGetMatchFull|null
+    */
     protected static function damToDbo($dam)
     {
         if (is_null($dam))
             return null;
         $dbo = new SpGetMatchFull();
 
-        $dbo->setMatch($dam->match);
-        $dbo->setSets($dam->sets);
+        $dbo->setMatch(LuStringUtils::convertJsonString($dam->match));
+        $dbo->setSets(LuStringUtils::convertJsonString($dam->sets));
 
         return $dbo;
     }
 
 
+    /**
+    * @param $match_id integer
+    * @return \App\Http\DataAccess\SP\SpGetMatchFull;
+    */
     public static function execute($match_id)
     {
-        $values = DB::select('SELECT * FROM sp_get_match_full(:match_id)', array(":match_id" => $match_id));
+        $values = DB::select('SELECT to_json(data.match) AS match, to_json(data.sets) AS sets FROM sp_get_match_full(:match_id) data', array(":match_id" => $match_id));
         return self::damToDbo($values[0]);
     }
 
+
+    public function jsonSerialize()
+    {
+        return array(
+            "Match" => $this->_match,
+            "Sets" => $this->_sets
+        );
+    }
+
+    public static function jsonDeserialize($json)
+    {
+        $dbo = new SpGetMatchFull();
+        if (isset($json["Match"])) {
+            $dbo->setMatch($json["Match"]);
+        }
+        if (isset($json["Sets"])) {
+            $dbo->setSets($json["Sets"]);
+        }
+        return $dbo;
+    }
+
+    public static function generateSample()
+    {
+        $dbo = new SpGetMatchFull();
+        $dbo->setMatch("sample string");
+        $dbo->setSets("sample string");
+        return $dbo;
+    }
 
 
     /**

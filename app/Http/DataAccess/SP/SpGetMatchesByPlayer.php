@@ -7,39 +7,53 @@
 
 namespace App\Http\DataAccess\SP;
 
-use Luticate\Utils\LuSpModel;
+use Luticate\Utils\LuSpDbo;
 use Luticate\Utils\LuMultipleDbo;
 use Luticate\Utils\LuStringUtils;
 use Illuminate\Support\Facades\DB;
 
-class SpGetMatchesByPlayer extends LuSpModel {
+class SpGetMatchesByPlayer extends LuSpDbo {
 
+    /**
+    * @param $dam
+    * @return \App\Http\DataAccess\SP\SpGetMatchesByPlayer|null
+    */
     protected static function damToDbo($dam)
     {
         if (is_null($dam))
             return null;
         $dbo = new SpGetMatchesByPlayer();
 
-        $dbo->setId($dam->id);
-        $dbo->setPlayer1($dam->player1);
-        $dbo->setPlayer2($dam->player2);
-        $dbo->setDate($dam->date);
-        $dbo->setSets($dam->sets);
-        $dbo->setTournament($dam->tournament);
+        $dbo->setId(LuStringUtils::convertJsonString($dam->id));
+        $dbo->setPlayer1(LuStringUtils::convertJsonString($dam->player1));
+        $dbo->setPlayer2(LuStringUtils::convertJsonString($dam->player2));
+        $dbo->setDate(LuStringUtils::convertJsonString($dam->date));
+        $dbo->setSets(LuStringUtils::convertJsonString($dam->sets));
+        $dbo->setTournament(LuStringUtils::convertJsonString($dam->tournament));
 
         return $dbo;
     }
 
 
+    /**
+    * @param $player_id integer
+    * @return \App\Http\DataAccess\SP\SpGetMatchesByPlayer[];
+    */
     public static function execute($player_id)
     {
-        $values = DB::select('SELECT * FROM sp_get_matches_by_player(:player_id)', array(":player_id" => $player_id));
+        $values = DB::select('SELECT to_json(data.id) AS id, to_json(data.player1) AS player1, to_json(data.player2) AS player2, to_json(data.date) AS date, to_json(data.sets) AS sets, to_json(data.tournament) AS tournament FROM sp_get_matches_by_player(:player_id) data', array(":player_id" => $player_id));
         $dboValues = array();
         foreach ($values as $value)
             $dboValues[] = self::damToDbo($value);
         return $dboValues;
     }
 
+    /**
+    * @param $player_id integer
+    * @param $page int The page number, 0 based
+    * @param $perPage int The number of items per page
+    * @return \Luticate\Utils\LuMultipleDbo;
+    */
     public static function getMultipleJson($player_id, $page, $perPage)
     {
         $values = DB::select('SELECT (SELECT count(*) FROM sp_get_matches_by_player(:player_id)) as count, (SELECT json_agg(q) FROM (SELECT * FROM sp_get_matches_by_player(:player_id) OFFSET (:page::int * :perPage::int) LIMIT :perPage) q) as data',
@@ -51,6 +65,54 @@ class SpGetMatchesByPlayer extends LuSpModel {
         }
         $data = LuStringUtils::convertJsonString($value->data);
         return new LuMultipleDbo($value->count, $data);
+    }
+
+    public function jsonSerialize()
+    {
+        return array(
+            "Id" => $this->_id,
+            "Player1" => $this->_player1,
+            "Player2" => $this->_player2,
+            "Date" => $this->_date,
+            "Sets" => $this->_sets,
+            "Tournament" => $this->_tournament
+        );
+    }
+
+    public static function jsonDeserialize($json)
+    {
+        $dbo = new SpGetMatchesByPlayer();
+        if (isset($json["Id"])) {
+            $dbo->setId($json["Id"]);
+        }
+        if (isset($json["Player1"])) {
+            $dbo->setPlayer1($json["Player1"]);
+        }
+        if (isset($json["Player2"])) {
+            $dbo->setPlayer2($json["Player2"]);
+        }
+        if (isset($json["Date"])) {
+            $dbo->setDate($json["Date"]);
+        }
+        if (isset($json["Sets"])) {
+            $dbo->setSets($json["Sets"]);
+        }
+        if (isset($json["Tournament"])) {
+            $dbo->setTournament($json["Tournament"]);
+        }
+        return $dbo;
+    }
+
+    public static function generateSample()
+    {
+        $dbo = new SpGetMatchesByPlayer();
+        $dbo->setId(42);
+        $dbo->setPlayer1("sample string");
+        $dbo->setPlayer2("sample string");
+        $dbo->setDate("sample string");
+        $dbo->setSets("sample string");
+        $dbo->setTournament("sample string");
+        return $dbo;
     }
 
 

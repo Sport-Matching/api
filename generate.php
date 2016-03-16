@@ -45,7 +45,8 @@ $gen->setConfig(array("dbo" =>
             "/^ground_types$/"
         ),
         "sp" => array(
-            "/^sp_lu_.*/"
+            "/^sp_lu_.*/",
+            "/^unaccent/"
         ),
         "controllers" => array(
             "/^SetsController$/"
