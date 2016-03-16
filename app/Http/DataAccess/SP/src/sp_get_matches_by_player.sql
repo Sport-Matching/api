@@ -9,4 +9,4 @@
         LEFT JOIN sets s3 ON s3.id = m.set3_id
         LEFT JOIN sets s4 ON s4.id = m.set4_id
         LEFT JOIN sets s5 ON s5.id = m.set5_id
-        WHERE m.player1_id = player_id OR m.player2_id = player_id
+        WHERE m.player1_id = player_id

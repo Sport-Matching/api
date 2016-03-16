@@ -12,19 +12,19 @@ use Luticate\Utils\LuMultipleDbo;
 use Luticate\Utils\LuStringUtils;
 use Illuminate\Support\Facades\DB;
 
-class SpGetPlayerWinPercent extends LuSpDbo {
+class SpGetPlayerAvgGamePerMatch extends LuSpDbo {
 
     /**
     * @param $dam
-    * @return \App\Http\DataAccess\SP\SpGetPlayerWinPercent|null
+    * @return \App\Http\DataAccess\SP\SpGetPlayerAvgGamePerMatch|null
     */
     protected static function damToDbo($dam)
     {
         if (is_null($dam))
             return null;
-        $dbo = new SpGetPlayerWinPercent();
+        $dbo = new SpGetPlayerAvgGamePerMatch();
 
-        $dbo->setPercent(LuStringUtils::convertJsonString($dam->percent));
+        $dbo->setAvg(LuStringUtils::convertJsonString($dam->avg));
 
         return $dbo;
     }
@@ -32,11 +32,11 @@ class SpGetPlayerWinPercent extends LuSpDbo {
 
     /**
     * @param $player_id integer
-    * @return \App\Http\DataAccess\SP\SpGetPlayerWinPercent;
+    * @return \App\Http\DataAccess\SP\SpGetPlayerAvgGamePerMatch;
     */
     public static function execute($player_id)
     {
-        $values = DB::select('SELECT to_json(data.percent) AS percent FROM sp_get_player_win_percent(:player_id) data', array(":player_id" => $player_id));
+        $values = DB::select('SELECT to_json(data.avg) AS avg FROM sp_get_player_avg_game_per_match(:player_id) data', array(":player_id" => $player_id));
         return self::damToDbo($values[0]);
     }
 
@@ -44,23 +44,23 @@ class SpGetPlayerWinPercent extends LuSpDbo {
     public function jsonSerialize()
     {
         return array(
-            "Percent" => $this->_percent
+            "Avg" => $this->_avg
         );
     }
 
     public static function jsonDeserialize($json)
     {
-        $dbo = new SpGetPlayerWinPercent();
-        if (isset($json["Percent"])) {
-            $dbo->setPercent($json["Percent"]);
+        $dbo = new SpGetPlayerAvgGamePerMatch();
+        if (isset($json["Avg"])) {
+            $dbo->setAvg($json["Avg"]);
         }
         return $dbo;
     }
 
     public static function generateSample()
     {
-        $dbo = new SpGetPlayerWinPercent();
-        $dbo->setPercent(42.42);
+        $dbo = new SpGetPlayerAvgGamePerMatch();
+        $dbo->setAvg(42.42);
         return $dbo;
     }
 
@@ -68,13 +68,13 @@ class SpGetPlayerWinPercent extends LuSpDbo {
     /**
     * @var double
     */
-    protected $_percent;
-    public function getPercent()
+    protected $_avg;
+    public function getAvg()
     {
-        return $this->_percent;
+        return $this->_avg;
     }
-    public function setPercent($value)
+    public function setAvg($value)
     {
-        $this->_percent = $value;
+        $this->_avg = $value;
     }
 }

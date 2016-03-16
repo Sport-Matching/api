@@ -26,6 +26,9 @@ class SpGetPlayerFull extends LuSpDbo {
 
         $dbo->setPlayer(LuStringUtils::convertJsonString($dam->player));
         $dbo->setMatchWinCount(LuStringUtils::convertJsonString($dam->match_win_count));
+        $dbo->setMatchWinCountBestGround(LuStringUtils::convertJsonString($dam->match_win_count_best_ground));
+        $dbo->setMatchWinPercent(LuStringUtils::convertJsonString($dam->match_win_percent));
+        $dbo->setMatchAvgGame(LuStringUtils::convertJsonString($dam->match_avg_game));
 
         return $dbo;
     }
@@ -37,7 +40,7 @@ class SpGetPlayerFull extends LuSpDbo {
     */
     public static function execute($player_id)
     {
-        $values = DB::select('SELECT to_json(data.player) AS player, to_json(data.match_win_count) AS match_win_count FROM sp_get_player_full(:player_id) data', array(":player_id" => $player_id));
+        $values = DB::select('SELECT to_json(data.player) AS player, to_json(data.match_win_count) AS match_win_count, to_json(data.match_win_count_best_ground) AS match_win_count_best_ground, to_json(data.match_win_percent) AS match_win_percent, to_json(data.match_avg_game) AS match_avg_game FROM sp_get_player_full(:player_id) data', array(":player_id" => $player_id));
         return self::damToDbo($values[0]);
     }
 
@@ -46,7 +49,10 @@ class SpGetPlayerFull extends LuSpDbo {
     {
         return array(
             "Player" => $this->_player,
-            "MatchWinCount" => $this->_matchWinCount
+            "MatchWinCount" => $this->_matchWinCount,
+            "MatchWinCountBestGround" => $this->_matchWinCountBestGround,
+            "MatchWinPercent" => $this->_matchWinPercent,
+            "MatchAvgGame" => $this->_matchAvgGame
         );
     }
 
@@ -59,6 +65,15 @@ class SpGetPlayerFull extends LuSpDbo {
         if (isset($json["MatchWinCount"])) {
             $dbo->setMatchWinCount($json["MatchWinCount"]);
         }
+        if (isset($json["MatchWinCountBestGround"])) {
+            $dbo->setMatchWinCountBestGround($json["MatchWinCountBestGround"]);
+        }
+        if (isset($json["MatchWinPercent"])) {
+            $dbo->setMatchWinPercent($json["MatchWinPercent"]);
+        }
+        if (isset($json["MatchAvgGame"])) {
+            $dbo->setMatchAvgGame($json["MatchAvgGame"]);
+        }
         return $dbo;
     }
 
@@ -67,6 +82,9 @@ class SpGetPlayerFull extends LuSpDbo {
         $dbo = new SpGetPlayerFull();
         $dbo->setPlayer("sample string");
         $dbo->setMatchWinCount(42);
+        $dbo->setMatchWinCountBestGround(42);
+        $dbo->setMatchWinPercent(42.42);
+        $dbo->setMatchAvgGame(42.42);
         return $dbo;
     }
 
@@ -95,5 +113,44 @@ class SpGetPlayerFull extends LuSpDbo {
     public function setMatchWinCount($value)
     {
         $this->_matchWinCount = $value;
+    }
+
+    /**
+    * @var integer
+    */
+    protected $_matchWinCountBestGround;
+    public function getMatchWinCountBestGround()
+    {
+        return $this->_matchWinCountBestGround;
+    }
+    public function setMatchWinCountBestGround($value)
+    {
+        $this->_matchWinCountBestGround = $value;
+    }
+
+    /**
+    * @var double
+    */
+    protected $_matchWinPercent;
+    public function getMatchWinPercent()
+    {
+        return $this->_matchWinPercent;
+    }
+    public function setMatchWinPercent($value)
+    {
+        $this->_matchWinPercent = $value;
+    }
+
+    /**
+    * @var double
+    */
+    protected $_matchAvgGame;
+    public function getMatchAvgGame()
+    {
+        return $this->_matchAvgGame;
+    }
+    public function setMatchAvgGame($value)
+    {
+        $this->_matchAvgGame = $value;
     }
 }
