@@ -7,6 +7,8 @@ $route = LuRoute::getInstance();
 
 $int = LuRoute::REG_INT;
 $player_id = "{player_id:$int}";
+$player1_id = "{player1_id:$int}";
+$player2_id = "{player2_id:$int}";
 
 
 LuDocBusiness::setupRoutes("/sport-matching");
@@ -14,3 +16,5 @@ LuDocBusiness::setupRoutes("/sport-matching");
 $route->get("/players", "Players", "getAll");
 $route->get("/players/$player_id/matches", "Players", "getMatches");
 $route->get("/players/$player_id", "Players", "getFullById");
+
+$route->get("/matches/$player1_id/vs/$player2_id", "Matches", "getVs");

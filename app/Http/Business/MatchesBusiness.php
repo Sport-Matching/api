@@ -11,4 +11,9 @@ class MatchesBusiness extends LuBusiness {
     {
         return new MatchesDataAccess();
     }
+
+    public static function getVs($player1_id, $player2_id, $page = 0, $perPage = 20000000)
+    {
+        return MatchesDataAccess::getVs($player1_id, $player2_id, $page, $perPage);
+    }
 }

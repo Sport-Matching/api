@@ -11,4 +11,9 @@ class MatchesController extends LuController {
     {
         return new MatchesBusiness();
     }
+    
+    public function getVs($player1_id, $player2_id, $page = 0, $perPage = 20000000)
+    {
+        return MatchesBusiness::getVs($player1_id, $player2_id, $page, $perPage);
+    }
 }
