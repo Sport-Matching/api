@@ -26,8 +26,8 @@ class Twitter
             'status' => $message
         );
         $twitter = new TwitterAPIExchange($settings);
-        return $twitter->buildOauth($url, $requestMethod)
+        return json_decode($twitter->buildOauth($url, $requestMethod)
             ->setPostfields($postfields)
-            ->performRequest();
+            ->performRequest());
     }
 }
