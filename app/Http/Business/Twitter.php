@@ -24,7 +24,7 @@ class Twitter
         $messages = TwitterDataAccess::findMessages("#sportmatching");
         foreach ($messages["Statuses"] as $status) {
             $matches = [];
-            if (preg_match('/\#sportmatching +(.+) +vs +(.*) +([0-9]+)\-([0-9]+)/i', $status["Text"], $matches)) {
+            if (preg_match('/\#sportmatching +(.+) +vs +(.+) +([0-9]+)\-([0-9]+)/i', $status["Text"], $matches)) {
 
                 $player1 = PlayersBusiness::findOnePlayer($matches[1]);
                 if (!is_null($player1)) {
