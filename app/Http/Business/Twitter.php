@@ -8,26 +8,42 @@
 
 namespace App\Http\Business;
 
-use TwitterAPIExchange;
+use App\Http\DataAccess\PlayersDataAccess;
+use App\Http\DataAccess\TwitterDataAccess;
 
 class Twitter
 {
-    public static function post($message)
+    public static function postMessage($message)
     {
-        $settings = array(
-            'oauth_access_token' => getenv("TWITTER_OAUTH_ACCESS_TOKEN"),
-            'oauth_access_token_secret' => getenv("TWITTER_OAUTH_ACCESS_TOKEN_SECRET"),
-            'consumer_key' => getenv("TWITTER_CONSUMER_KEY"),
-            'consumer_secret' => getenv("TWITTER_CONSUMER_SECRET")
-        );
-        $url = 'https://api.twitter.com/1.1/statuses/update.json';
-        $requestMethod = 'POST';
-        $postfields = array(
-            'status' => $message
-        );
-        $twitter = new TwitterAPIExchange($settings);
-        return json_decode($twitter->buildOauth($url, $requestMethod)
-            ->setPostfields($postfields)
-            ->performRequest());
+        return TwitterDataAccess::postMessage($message);
+    }
+
+    public static function findMessages($query)
+    {
+        $bets = [];
+        $messages = TwitterDataAccess::findMessages($query);
+        foreach ($messages["Statuses"] as $status) {
+            $matches = [];
+            if (preg_match('/\#sportmatching +(.+) +vs +(.*) +([0-9]+)\-([0-9]+)/i', $status["Text"], $matches)) {
+
+                $player1 = PlayersBusiness::findOnePlayer($matches[1]);
+                if (!is_null($player1)) {
+                    $player2 = PlayersBusiness::findOnePlayer($matches[2]);
+                    if (!is_null($player2)) {
+                        $bets[] = [
+                            "Player1" => [
+                                "Player" =>$player1,
+                                "Score" => $matches[3]
+                            ],
+                            "Player2" => [
+                                "Player" =>$player2,
+                                "Score" => $matches[4]
+                            ]
+                        ];
+                    }
+                }
+            }
+        }
+        return $bets;
     }
 }

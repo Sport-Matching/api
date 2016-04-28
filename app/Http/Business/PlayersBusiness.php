@@ -19,6 +19,15 @@ class PlayersBusiness extends LuBusiness {
         return MatchesDataAccess::getMatchesByPlayer($player_id, $page, $perPage);
     }
 
+    public static function findOnePlayer($query)
+    {
+        $players = self::getAll(0, 1, $query);
+        if (count($players->getData()) >= 1) {
+            return $players->getData()[0];
+        }
+        return null;
+    }
+
     public static function getFullById($player_id)
     {
         return PlayersDataAccess::getFullById($player_id);
