@@ -18,10 +18,10 @@ class Twitter
         return TwitterDataAccess::postMessage($message);
     }
 
-    public static function findMessages($query)
+    public static function findMessages()
     {
         $bets = [];
-        $messages = TwitterDataAccess::findMessages($query);
+        $messages = TwitterDataAccess::findMessages("#sportmatching");
         foreach ($messages["Statuses"] as $status) {
             $matches = [];
             if (preg_match('/\#sportmatching +(.+) +vs +(.*) +([0-9]+)\-([0-9]+)/i', $status["Text"], $matches)) {
