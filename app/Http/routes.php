@@ -18,3 +18,8 @@ $route->get("/players/$player_id/matches", "Players", "getMatches");
 $route->get("/players/$player_id", "Players", "getFullById");
 
 $route->get("/matches/$player1_id/vs/$player2_id", "Matches", "getVs");
+$route->get("/matches/vs", "Matches", "getVsWithName");
+
+//$route->get("/stats", "Statistiques", "get");
+$route->post("/prediction", "Statistiques", "prediction");
+$route->post("/getCsv", "Statistiques", "getCsv");

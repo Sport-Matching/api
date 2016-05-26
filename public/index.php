@@ -12,7 +12,7 @@
 */
 
 $app = require __DIR__.'/../bootstrap/app.php';
-
+require_once('../SwaggerClient-php/autoload.php');
 /*
 |--------------------------------------------------------------------------
 | Run The Application

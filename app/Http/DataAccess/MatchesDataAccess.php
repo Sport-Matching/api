@@ -4,6 +4,7 @@ namespace App\Http\DataAccess;
 
 use App\Http\DataAccess\SP\SpGetMatchesByPlayer;
 use App\Http\DataAccess\SP\SpGetMatchesVs;
+use App\Http\DataAccess\SP\SpGetMatchesVsWithName;
 use Luticate\Utils\LuDataAccess;
 use App\Http\DataAccess\Models\Matches;
 use App\Http\DBO\MatchesDbo;
@@ -22,5 +23,10 @@ class MatchesDataAccess extends LuDataAccess {
     public static function getVs($player1_id, $player2_id, $page = 0, $perPage = 20000000)
     {
         return SpGetMatchesVs::getMultipleJson($player1_id, $player2_id, $page, $perPage);
+    }
+
+    public static function getVsWithName($player1_id, $player2_id, $page = 0, $perPage = 20000000)
+    {
+        return SpGetMatchesVsWithName::getMultipleJson($player1_id, $player2_id, $page, $perPage);
     }
 }
