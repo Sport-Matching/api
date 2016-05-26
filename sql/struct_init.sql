@@ -275,7 +275,7 @@ $$;
 -- Name: sp_get_player_full(integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION sp_get_player_full(player_id integer, OUT player players, OUT match_count bigint, OUT match_win_count bigint, OUT match_win_count_best_ground bigint, OUT match_win_percent double precision, OUT match_avg_game double precision, OUT match_first_set_avg_game double precision, OUT match_avg_set double precision, OUT match_first_set_win_percent double precision, OUT set_result_percent json) RETURNS record
+CREATE FUNCTION sp_get_player_full(player_id integer, OUT player players, OUT match_count bigint, OUT match_win_count bigint, OUT match_win_count_best_ground bigint, OUT match_win_percent double precision, OUT match_avg_game double precision, OUT match_first_set_avg_game double precision, OUT match_avg_set double precision, OUT match_first_set_win_percent double precision, OUT best_ground integer, OUT set_result_percent json) RETURNS record
     LANGUAGE sql
     AS $$
         SELECT
@@ -288,6 +288,7 @@ CREATE FUNCTION sp_get_player_full(player_id integer, OUT player players, OUT ma
                 sp_get_player_avg_game_per_first_set(p.id) AS match_first_set_avg_game,
                 sp_get_player_avg_set_per_match(p.id) AS match_avg_set,
                 sp_get_player_win_first_set_count(p.id) AS match_first_set_win_percent,
+                sp_get_player_best_ground(p.id) AS best_ground,
                 '[{"player1_score":0, "player2_score":2, "percent": 42.42}]'::json AS set_result_percent
         FROM players p
         WHERE p.id = player_id
@@ -302,9 +303,15 @@ $$;
 CREATE FUNCTION sp_get_player_win_first_set_count(player_id integer, OUT percent double precision) RETURNS double precision
     LANGUAGE sql
     AS $$
-        SELECT count(*)::float / (SELECT count(*) FROM sp_get_matches_by_player(player_id))::float * 100.0 FROM matches m
+    SELECT count(*)::float /
+           (CASE (SELECT count(*) FROM sp_get_matches_by_player(player_id))::float
+            WHEN 0 THEN 1
+            ELSE (SELECT count(*) FROM sp_get_matches_by_player(player_id))::float
+            END
+           )
+           * 100.0 FROM matches m
         LEFT JOIN sets s ON s.id = m.set1_id
-        WHERE m.player1_id = player_id AND sp_get_set_winner(s.id) = 1
+    WHERE m.player1_id = player_id AND sp_get_set_winner(s.id) = 1
 $$;
 
 
