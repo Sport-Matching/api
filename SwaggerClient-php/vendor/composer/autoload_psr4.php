@@ -13,6 +13,7 @@ return array(
     'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Symfony\\Component\\Config\\' => array($vendorDir . '/symfony/config'),
-    'Swagger\\Client\\' => array($baseDir . '/lib'),
+    'Swagger\\Client\\' => array($baseDir . '/lib', $baseDir . '/test'),
+    'Satooshi\\' => array($vendorDir . '/satooshi/php-coveralls/src/Satooshi'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
 );

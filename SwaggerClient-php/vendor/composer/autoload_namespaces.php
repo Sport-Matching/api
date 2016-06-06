@@ -11,6 +11,4 @@ return array(
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
     'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
-    'Contrib\\Component' => array($vendorDir . '/satooshi/php-coveralls/src'),
-    'Contrib\\Bundle' => array($vendorDir . '/satooshi/php-coveralls/src'),
 );

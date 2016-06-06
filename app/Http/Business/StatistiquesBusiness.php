@@ -37,7 +37,6 @@ class StatistiquesBusiness extends LuBusiness
     "input": {
       "ColumnNames": [
         "j1",
-        "j2",
         "j1_g1",
         "j1_t1",
         "j1_p1",
@@ -54,17 +53,11 @@ class StatistiquesBusiness extends LuBusiness
         "j2_age",
         "j1_rank",
         "j2_rank",
-        "ground",
-        "Column 19",
-        "Column 20",
-        "Column 21",
-        "Column 22",
-        "Column 23"
+        "ground"
       ],
       "Values": [
         [
           "'.$datas[0]['Name'].'",
-          "'.$datas[1]['Name'].'",
           "'.$datas[0]['W1'].'",
           "'.$datas[0]['T1'].'",
           "'.$datas[0]['P1'].'",
@@ -81,12 +74,7 @@ class StatistiquesBusiness extends LuBusiness
           "'.$datas[1]['Age'].'",
           "'.$datas[0]['Rank'].'",
           "'.$datas[1]['Rank'].'",
-          "1",
-          "value",
-          "value",
-          "value",
-          "value",
-          "value"
+          "3"
         ]
       ]
     }
@@ -95,7 +83,9 @@ class StatistiquesBusiness extends LuBusiness
     "Append score columns to output": ""
   }
 }';
+       
         //var_dump($body);
+        //$aa = 'Bearer x3V91rZqAxK+HebcGrK1LM9wg3cC+Awu13YWwUUWZeULcbAoWAeVtVRWW0+aUdQh8oehhui/SBDx7qftnP3vxQ==';
         $API_KEY = 'Bearer x3V91rZqAxK+HebcGrK1LM9wg3cC+Awu13YWwUUWZeULcbAoWAeVtVRWW0+aUdQh8oehhui/SBDx7qftnP3vxQ==';
         Configuration::getDefaultConfiguration()->addDefaultHeader('Authorization', $API_KEY);
         Configuration::getDefaultConfiguration()->setDebug(false);
@@ -103,7 +93,7 @@ class StatistiquesBusiness extends LuBusiness
         try {
            $answer = $api->execute($body);
             $obj = $answer->Results->output1->value->Values[0];
-            return array('j1'=> $obj[0], 'j2' => $obj[1], 'prediction' => $obj[24]);
+            return array('j1'=> $obj[0], 'prediction' => $obj[18]);
         }
         catch(\Exception $e){
             echo $e->getMessage();

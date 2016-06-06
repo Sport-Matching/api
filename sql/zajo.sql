@@ -1,3 +1,15 @@
+-- CREATE OR REPLACE FUNCTION sp_get_player_win_number_last_month(in_id integer, in_date timestamp without time zone)
+--   RETURNS integer as
+-- $$
+--
+-- SELECT count(*)::int as percent
+-- FROM matches m
+-- WHERE m.date <= in_date AND m.date >= in_date - interval '1 month'
+--       AND ((sp_get_match_winner(m.id) = 1 AND m.player1_id = in_id) OR (sp_get_match_winner(m.id) = 2 AND m.player2_id = in_id))
+--
+-- $$
+-- LANGUAGE sql;
+
 CREATE OR REPLACE FUNCTION sp_get_player_win_number_last_month(in_id integer, in_date timestamp without time zone)
   RETURNS integer as
 $$
@@ -5,7 +17,7 @@ $$
 SELECT count(*)::int as percent
 FROM matches m
 WHERE m.date <= in_date AND m.date >= in_date - interval '1 month'
-      AND ((sp_get_match_winner(m.id) = 1 AND m.player1_id = in_id) OR (sp_get_match_winner(m.id) = 2 AND m.player2_id = in_id))
+      AND sp_get_match_winner(m.id) = 1 AND m.player1_id = in_id
 
 $$
 LANGUAGE sql;
@@ -14,13 +26,25 @@ LANGUAGE sql;
 
 
 
+-- CREATE OR REPLACE FUNCTION sp_get_player_win_last_month(in_id integer, in_date timestamp without time zone, OUT nb integer, OUT total integer, OUT result integer)
+--   RETURNS RECORD as
+-- $$
+--
+-- SELECT sp_get_player_win_number_last_month(in_id, in_date) as nb, count(*)::int as total, (sp_get_player_win_number_last_month(in_id, in_date)* 100 / CASE count(*) WHEN 0 THEN 1 ELSE count(*) END)::int as result
+-- FROM matches m
+-- WHERE m.date <= in_date AND m.date >= (in_date - interval '1 month') AND (m.player1_id = in_id OR m.player2_id = in_id);
+--
+-- $$
+-- LANGUAGE sql;
+
 CREATE OR REPLACE FUNCTION sp_get_player_win_last_month(in_id integer, in_date timestamp without time zone, OUT nb integer, OUT total integer, OUT result integer)
   RETURNS RECORD as
 $$
 
 SELECT sp_get_player_win_number_last_month(in_id, in_date) as nb, count(*)::int as total, (sp_get_player_win_number_last_month(in_id, in_date)* 100 / CASE count(*) WHEN 0 THEN 1 ELSE count(*) END)::int as result
 FROM matches m
-WHERE m.date <= in_date AND m.date >= (in_date - interval '1 month') AND (m.player1_id = in_id OR m.player2_id = in_id);
+WHERE m.date <= in_date AND m.date >= (in_date - interval '1 month')
+AND m.player1_id = in_id;
 
 $$
 LANGUAGE sql;
@@ -34,6 +58,19 @@ $$
 LANGUAGE sql;
 
 
+
+-- CREATE OR REPLACE FUNCTION sp_get_player_win_number_three_month(in_id integer, in_date timestamp without time zone)
+--   RETURNS integer as
+-- $$
+--
+-- SELECT count(*)::int as percent
+-- FROM matches m
+-- WHERE m.date <= in_date AND m.date >= in_date - interval '3 month'
+--       AND ((sp_get_match_winner(m.id) = 1 AND m.player1_id = in_id) OR (sp_get_match_winner(m.id) = 2 AND m.player2_id = in_id))
+--
+-- $$
+-- LANGUAGE sql;
+
 CREATE OR REPLACE FUNCTION sp_get_player_win_number_three_month(in_id integer, in_date timestamp without time zone)
   RETURNS integer as
 $$
@@ -41,11 +78,21 @@ $$
 SELECT count(*)::int as percent
 FROM matches m
 WHERE m.date <= in_date AND m.date >= in_date - interval '3 month'
-      AND ((sp_get_match_winner(m.id) = 1 AND m.player1_id = in_id) OR (sp_get_match_winner(m.id) = 2 AND m.player2_id = in_id))
-
+      AND sp_get_match_winner(m.id) = 1 AND m.player1_id = in_id
 $$
 LANGUAGE sql;
 
+
+-- CREATE OR REPLACE FUNCTION sp_get_player_win_three_month(in_id integer, in_date timestamp without time zone, OUT nb integer, OUT total integer, OUT result integer)
+--   RETURNS RECORD as
+-- $$
+--
+-- SELECT sp_get_player_win_number_three_month(in_id, in_date) as nb, count(*)::int as total, (sp_get_player_win_number_three_month(in_id, in_date)* 100 / CASE count(*) WHEN 0 THEN 1 ELSE count(*) END)::int as result
+-- FROM matches m
+-- WHERE m.date <= in_date AND m.date >= (in_date - interval '3 month') AND (m.player1_id = in_id OR m.player2_id = in_id);
+--
+-- $$
+-- LANGUAGE sql;
 
 CREATE OR REPLACE FUNCTION sp_get_player_win_three_month(in_id integer, in_date timestamp without time zone, OUT nb integer, OUT total integer, OUT result integer)
   RETURNS RECORD as
@@ -53,12 +100,11 @@ $$
 
 SELECT sp_get_player_win_number_three_month(in_id, in_date) as nb, count(*)::int as total, (sp_get_player_win_number_three_month(in_id, in_date)* 100 / CASE count(*) WHEN 0 THEN 1 ELSE count(*) END)::int as result
 FROM matches m
-WHERE m.date <= in_date AND m.date >= (in_date - interval '3 month') AND (m.player1_id = in_id OR m.player2_id = in_id);
+WHERE m.date <= in_date AND m.date >= (in_date - interval '3 month')
+AND m.player1_id = in_id;
 
 $$
 LANGUAGE sql;
-
-
 
 
 CREATE OR REPLACE FUNCTION sp_export(in_date date,
@@ -84,7 +130,7 @@ CREATE OR REPLACE FUNCTION sp_export(in_date date,
   OUT result int
 ) RETURNS setof record AS
 $$
-SELECT p1.name, p2.name,
+SELECT DISTINCT p1.name, p2.name,
   wp1.nb as p1_win1, wp1.total as p1_total1, wp1.result as p1_percent1,
   wp2.nb as p2_win1, wp2.total as p2_total1, wp2.result as p2_percent1,
 
@@ -105,14 +151,15 @@ FROM matches m
   INNER JOIN sp_get_player_win_last_month(m.player2_id, m.date) wp2 ON TRUE
   INNER JOIN sp_get_player_win_three_month(m.player1_id, m.date) wp13 ON TRUE
   INNER JOIN sp_get_player_win_three_month(m.player2_id, m.date) wp23 ON TRUE
-  INNER JOIN rankings r1 ON r1.player_id = m.player1_id
-  INNER JOIN rankings r2 ON r2.player_id = m.player2_id
+  INNER JOIN rankings r1 ON r1.player_id = m.player1_id AND r1.year = 2016
+  INNER JOIN rankings r2 ON r2.player_id = m.player2_id AND r2.year = 2016
   INNER JOIN tournaments t ON t.id = m.tournament_id
   INNER JOIN players p1 ON p1.id = m.player1_id
   INNER JOIN players p2 ON p2.id = m.player2_id
 WHERE m.date >= in_date;
 $$
 LANGUAGE sql;
+
 
 
 
@@ -138,7 +185,7 @@ FROM players p1
   INNER JOIN players p2 ON TRUE
   INNER JOIN sp_get_player_win_last_month(p1.id, in_date) wp1 ON TRUE
   INNER JOIN sp_get_player_win_three_month(p1.id, in_date) wp13 ON TRUE
-  INNER JOIN rankings r1 ON r1.player_id = p1.id
+  INNER JOIN rankings r1 ON r1.player_id = p1.id AND r1.year = 2016
 WHERE p1.name = in_j1
 UNION
 SELECT
@@ -151,7 +198,7 @@ FROM players p1
   INNER JOIN players p2 ON TRUE
   INNER JOIN sp_get_player_win_last_month(p1.id, in_date) wp1 ON TRUE
   INNER JOIN sp_get_player_win_three_month(p1.id, in_date) wp13 ON TRUE
-  INNER JOIN rankings r1 ON r1.player_id = p1.id
+  INNER JOIN rankings r1 ON r1.player_id = p1.id AND r1.year = 2016
 WHERE p1.name = in_j2;
 $$
 LANGUAGE sql;
