@@ -30,7 +30,7 @@ class StatistiquesBusiness extends LuBusiness
         $j1 = self::getParam('j1', null);
         $j2 = self::getParam('j2', null);
         $date = self::getParam('date', null);
-        var_dump($j1, $j2, $date);
+        $ground = self::getParam('ground', null);
         if (is_null($j1) || is_null($j2) || is_null($date)){
             abort(409, 'BAD_PARAMETERS');
         }
