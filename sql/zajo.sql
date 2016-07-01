@@ -422,10 +422,12 @@ SELECT DISTINCT p1.name, p2.name,
   coalesce(mp2.average_opponent,0) as average_games_opponents_j2_3months,
 
   (SELECT count(*) FROM matches mms
-  WHERE mms.player1_id = m.player1_id AND mms.player2_id = m.player2_id AND sp_get_match_winner(m.id) = 1)
+  WHERE mms.player1_id = m.player1_id AND mms.player2_id = m.player2_id AND sp_get_match_winner(m.id) = 1
+        AND mms.date <= m.date)
   as history_win_j1,
   (SELECT count(*) FROM matches mms
-  WHERE mms.player1_id = m.player1_id AND mms.player2_id = m.player2_id AND sp_get_match_winner(m.id) = 2)
+  WHERE mms.player1_id = m.player1_id AND mms.player2_id = m.player2_id AND sp_get_match_winner(m.id) = 2
+        AND mms.date <= m.date)
     as history_win_j2,
 
   r1.rank,
@@ -481,10 +483,12 @@ BEGIN
                       coalesce(mp2.average_opponent,0) as average_games_opponents_j2_3months,
 
                       (SELECT count(*) FROM matches mms
-                      WHERE mms.player1_id = m.player1_id AND mms.player2_id = m.player2_id AND sp_get_match_winner(m.id) = 1)
+                      WHERE mms.player1_id = m.player1_id AND mms.player2_id = m.player2_id AND sp_get_match_winner(m.id) = 1
+                      AND mms.date <= m.date)
                         as history_win_j1,
                       (SELECT count(*) FROM matches mms
-                      WHERE mms.player1_id = m.player1_id AND mms.player2_id = m.player2_id AND sp_get_match_winner(m.id) = 2)
+                      WHERE mms.player1_id = m.player1_id AND mms.player2_id = m.player2_id AND sp_get_match_winner(m.id) = 2
+                      AND mms.date <= m.date)
                         as history_win_j2,
 
                       r1.rank as j1_rank,
